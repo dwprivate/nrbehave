@@ -2,6 +2,9 @@
 - install python 11 and poetry
 - run `poetry add -G dev pre-commit black isort`
 - pre-commit: run `poetry run pre-commit install`
+
+- run all tests: `poetry run behave`
+- run one test (with optional line numer): `poetry run **/selenium.feature:16`
 # Poetry
 
 Poetry is a tool for dependency management and packaging in Python. It allows you to declare the libraries your project
@@ -14,3 +17,8 @@ Tip: use venv in local subdirectory: https://python-poetry.org/docs/configuratio
 # pre-commit
 run manually: `poetry run pre-commit run`
 Useful tips and config samples: https://sam.hooke.me/note/2023/09/poetry-pre-commit-hooks/po
+
+# about selenium
+https://selenium-python.readthedocs.io/installation.html
+https://www.selenium.dev/documentation/
+# about
