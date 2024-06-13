@@ -1,20 +1,25 @@
+from _utils.selenium_string_utils import *
 from behave import *
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.support.wait import WebDriverWait
 
 
-@given('j\'ouvre la page "{url}"')
+@step('j\'ouvre la page "{url}"')
 def step_impl(context, url):
-    print(url)
+    context.browser.get(url)
 
 
-@then(
-    'un élément "{selector}" contenant le texte "{text}" apparait en moins de {timeout:d} secondes'
+@step(
+    'je devrais voir un élément "{selector}" contenant le texte "{text}" en moins de {timeout:d} secondes'
 )
 def step_impl(context, selector, text, timeout):
-    print(timeout)
-    print(text)
+    wait = WebDriverWait(context.browser, timeout=timeout)
+    wait.until(EC.text_to_be_present_in_element((By.CSS_SELECTOR, selector), text))
 
 
-# @when(u'j\'encode la valeur "python<enter>" dans le champs "input[name="search"]"')
 @when('j\'encode la valeur "{value}" dans le champs "{selector}"')
-def step_impl(context, value, selector):
-    print(value)
+def step_impl(context, value: str, selector):
+    element = context.browser.find_element(By.CSS_SELECTOR, selector)
+
+    element.send_keys(replace_special_keys(value))
