@@ -1,5 +1,7 @@
+@tf
 Feature: Behaving demo
 
+  @t1 @t2
   Scenario: run a simple test
     Given we have behave installed
     When we implement a test
