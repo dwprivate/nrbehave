@@ -12,12 +12,18 @@ from selenium.webdriver.support.wait import WebDriverWait
 
 @contextmanager
 def emulator(context, timeout=10):
-    try:
-        wait = WebDriverWait(context.browser, timeout=timeout)
-        wait.until(EC.frame_to_be_available_and_switch_to_it("virtelEmulator"))
+    # skip if already in virtel
+    if getattr(context.browser, "active_frame_id", "") == "virtelEmulator":
         yield context.browser
-    finally:
-        context.browser.switch_to.default_content()
+    else:
+        try:
+            wait = WebDriverWait(context.browser, timeout=timeout)
+            wait.until(EC.frame_to_be_available_and_switch_to_it("virtelEmulator"))
+            context.browser.active_frame_id = "virtelEmulator"
+            yield context.browser
+        finally:
+            context.browser.switch_to.default_content()
+            context.browser.active_frame_id = ""
 
 
 # to move
@@ -26,8 +32,16 @@ def zone_locator(col: int, row: int):  # todo: change signature row, col
     return (By.XPATH, selector)
 
 
+@step("textshot")
+def textshot(context):
+    with emulator(context) as mydesk:
+        text = mydesk.find_element(By.CSS_SELECTOR, "pre").text
+        text.replace(" ", "§")
+        print(text)
+
+
 @when('I fill in zone {row:d},{col:d} with value "{value}"')
-def step_impl(context, row: int, col: int, value: str):
+def fill_zone_with_row_and_col(context, row: int, col: int, value: str):
     with emulator(context) as mydesk:
         element: WebElement = mydesk.find_element(*zone_locator(col, row))
         assert element.get_attribute("vt") == "I"
@@ -39,14 +53,59 @@ def step_impl(context, row: int, col: int, value: str):
         ActionChains(context.browser).send_keys(replace_special_keys(value)).perform()
 
 
-@then('zone {row:d},{col:d} should have value "{value}" within {timeout:d} seconds')
-@then('zone {row:d},{col:d} should have value "{value}"')
+@when('I fill in zone {where:w} "{label}" with value "{value}"')
+def step_impl(context, where: str, label: str, value: str):
+    assert where in ["preceding", "following"]
+    assert '"' not in label
+    # todo
+    with emulator(context) as mydesk:
+        elements: array[WebElement] = mydesk.find_elements(
+            By.XPATH, f'//pre//span[contains(text(), "{label}")]'
+        )
+        assert len(elements) == 1
+        # find the first span with type I after/before given element
+        field: WebElement = elements[0].find_element(
+            By.XPATH, f'{where}::span[@vt="I"][1]'
+        )
+        fill_zone_with_row_and_col(
+            context, field.get_attribute("vr"), field.get_attribute("vc"), value
+        )
+
+
+@then('zone {row:d},{col:d} should contains value "{value}" within {timeout:d} seconds')
+@then('zone {row:d},{col:d} should contains value "{value}"')
 # rename: contains text
-def step_impl(context, row: int, col: int, value: str, timeout: int = 10):
+def zone_with_row_and_col_should_contains(
+    context, row: int, col: int, value: str, timeout: int = 10
+):
     locator = zone_locator(col, row)
     with emulator(context) as mydesk:
         wait = WebDriverWait(context.browser, timeout=timeout)
         wait.until(EC.text_to_be_present_in_element(locator, value))
+
+
+@then(
+    'zone {where:w} "{label}" should contains value "{value}" within {timeout:d} seconds'
+)
+@then('zone {where:w} "{label}" should contains value "{value}"')
+def step_impl(context, where: str, label: str, value: str, timeout: int = 10):
+    assert where in ["preceding", "following"]
+    with emulator(context) as mydesk:
+        elements: array[WebElement] = mydesk.find_elements(
+            By.XPATH, f'//pre//span[contains(text(), "{label}")]'
+        )
+        assert len(elements) == 1
+        # find the first span with type I before given element
+        field: WebElement = elements[0].find_element(
+            By.XPATH, where + '::span[@vt="I"][1]'
+        )
+        zone_with_row_and_col_should_contains(
+            context,
+            field.get_attribute("vr"),
+            field.get_attribute("vc"),
+            value,
+            timeout,
+        )
 
 
 @when('I send to MyDesk "{value}"')
@@ -74,11 +133,12 @@ def setupMyDesk(context):
 
 
 @step("I log out")
-def logoutMyDesk(ctx):
+def logoutMyDesk(context):
     # todo: create "BeforeCloseBrowser" hook
     context.browser.find_element(By.ID, "virtelEmulator").send_keys(
-        replace_special_keys("<HOME>FIN<RETURN>")
+        replace_special_keys("<HOME>FIN<RETURN><PAUSE>/RCL<RETURN>")
     )
+    print("DISCONNECTED")
     # pass
     # context.browser.switch_to.default_content()
     # try:

@@ -1,5 +1,5 @@
 #language: en
-@fixture.browser.firefox
+@autoLogOut @fixture.browser.firefox
 Feature: Demo Selenium
 
   Tagguer un test ou une fonctionnalité avec @fixture.browser.firefox permet d'utiliser un navigateur.

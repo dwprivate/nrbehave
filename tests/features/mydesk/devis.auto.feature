@@ -8,11 +8,10 @@ Feature: Demo MyDesk - Devis Auto
     And I fill in element "input[placeholder="Mot de passe"]" with value "DWE12345"
     And I press element "button[type="submit"]"
     Then the browser's URL should match "https://mydesk-tst.ethias.be/home" within 30 seconds
-
+    When I setup MyDesk
 
 
     When I visit "https://mydesk-tst.ethias.be/terminal?actionKey=S1GSI&actionType=100"
-    When I setup MyDesk
     Then zone 1,2 should contains value "ETHI" within 30 seconds
 
     When I fill in zone 4,41 with value "702217<F1>"

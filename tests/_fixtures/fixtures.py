@@ -17,6 +17,7 @@ def browser_firefox(context, timeout=2, **kwargs):
     context.browser.implicitly_wait(timeout)
     yield context.browser
     # -- CLEANUP-FIXTURE PART:
+    print("quit browser")
     context.browser.quit()
 
 
@@ -31,4 +32,5 @@ def browser_chrome(context, timeout=2, **kwargs):
     context.browser.implicitly_wait(timeout)
     yield context.browser
     # -- CLEANUP-FIXTURE PART:
+    print("quit browser")
     context.browser.quit()
