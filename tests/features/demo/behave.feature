@@ -24,44 +24,13 @@ Feature: Behaving demo
     | 10    | 15     | 25  |
     | 0     | 0      | 0   |
 
-  Scenario: execute_steps
-    Given a scenario
-    """
-      Given first operand is 10
-      And second operand is 15
-      When I sum all operands
-      Then result should be 25
-    """
-    When I execute it
-    Then it should return success
-    Given a scenario
-    """
-      Given first operand is 10
-      And second operand is 15
-      When I sum all operands
-      Then result should be 32
-    """
-    When I execute it
-    Then it should return failed
+    Scenario: Execute single scenario from feature file
+      # Rename this step, to avoid confusion between feature file name and feature title ?
+      When I run scenario "behave" "run a simple test"
+      Then It should succeed
 
-  Scenario: execute_steps with rowData
-    Given a scenario
-    """
-      Given first operand is <first>
-      And second operand is <second>
-      When I sum all operands
-      Then result should be <result>
-    """
-    When I execute it with data
-    | first | second | result |
-    | 10    | 15     | 25     |
-    Then it should return success
-
-    Scenario: Find feature file and execute one scenario
-      Given a glob "**/behave.feature"
-      When I search for files using this glob
-      Then I should find 1 file
-      When I search for scenario "sum operands" in this file
-      Then I should find 1 scenario
-      When I execute this scenario
-      Then it should return success
+  Scenario: Execute scenario outline from feature file
+      When I run scenario "behave" "sum operands with examples" with data
+        | first | second | sum |
+        | 10    | 15     | 25  |
+      Then It should succeed

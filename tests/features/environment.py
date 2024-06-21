@@ -13,3 +13,7 @@ def before_all(context):
 
 def after_all(context):
     print("after_all")
+
+
+def before_scenario(context, scenario):
+    context.scenario_data = {}

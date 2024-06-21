@@ -3,6 +3,7 @@ from contextlib import contextmanager
 
 from _utils.selenium_string_utils import *
 from behave import *
+from behave.runner import Context
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.remote.webelement import WebElement
@@ -123,7 +124,6 @@ def setupMyDesk(context):
         time.sleep(1)
         driver.execute_script("openparmwin()")
         # wait.until(EC.number_of_windows_to_be(2))
-
         driver.switch_to.window(driver.window_handles[1])
 
         driver.find_element(By.CSS_SELECTOR, "a#ui-id-3").click()
@@ -134,7 +134,6 @@ def setupMyDesk(context):
 
 @step("I log out")
 def logoutMyDesk(context):
-    # todo: create "BeforeCloseBrowser" hook
     context.browser.find_element(By.ID, "virtelEmulator").send_keys(
         replace_special_keys("<HOME>FIN<RETURN><PAUSE>/RCL<RETURN>")
     )
@@ -150,3 +149,10 @@ def logoutMyDesk(context):
     #     print("disconnected")
     # except Exception as e:
     #     print(f"NOT disconnected: {e}")
+
+
+@step('I go to screen "{screen}"')
+def goToMyDeskScreen(context: Context, screen: str):
+    context.browser.get(
+        f"https://mydesk-tst.ethias.be/terminal?actionKey={screen}&actionType=100"
+    )
