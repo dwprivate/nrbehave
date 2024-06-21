@@ -38,37 +38,45 @@ def step_impl(context, where: str, label: str, value: str):
 
 
 @then('zone {row:d},{col:d} should contains value "{value}" within {timeout:d} seconds')
+@then(
+    'zone "{name}" {row:d},{col:d} should contains value "{value}" within {timeout:d} seconds'
+)
 @then('zone {row:d},{col:d} should contains value "{value}"')
+@then('zone "{name}" {row:d},{col:d} should contains value "{value}"')
 # rename: contains text
 def zone_with_row_and_col_should_contains(
-    context, row: int, col: int, value: str, timeout: int = 10
+    context, row: int, col: int, value: str, name: str = "", timeout: int = 10
 ):
-
     assert VirtelEmulator(context, timeout).string_found(row, col, value)
 
 
-@then(
-    'zone {where:w} "{label}" should contains value "{value}" within {timeout:d} seconds'
-)
+@then('zone {row:d},{col:d} should equals value "{value}"')
+@then('zone "{name}" {row:d},{col:d} should equals value "{value}"')
+# rename: contains text
+def zone_with_row_and_col_should_contains(
+    context, row: int, col: int, value: str, name: str = ""
+):
+    assert VirtelEmulator(context).string_get(row, col).strip() == value.strip()
+
+
 @then('zone {where:w} "{label}" should contains value "{value}"')
-def step_impl(context, where: str, label: str, value: str, timeout: int = 10):
-    assert where in ["preceding", "following"]
-    with virtelIframe(context) as mydesk:
-        elements: array[WebElement] = mydesk.find_elements(
-            By.XPATH, f'//pre//span[contains(text(), "{label}")]'
-        )
-        assert len(elements) == 1
-        # find the first span with type I before given element
-        field: WebElement = elements[0].find_element(
-            By.XPATH, where + '::span[@vt="I"][1]'
-        )
-        zone_with_row_and_col_should_contains(
-            context,
-            field.get_attribute("vr"),
-            field.get_attribute("vc"),
-            value,
-            timeout,
-        )
+def step_impl(context, where: str, label: str, value: str):
+    # Ne fonctionne que pour les zones I
+    # todo: func
+    match where:
+        case "following" | "after":
+            xpath_suffix: str = f'following::span[@vt="I"][1]'
+        case "preceding" | "before":
+            xpath_suffix: str = f'preceding::span[@vt="I"][1]'
+        case _:
+            raise ValueError('Unexpected "where" keyword: ' + where)
+    assert '"' not in label  # todo
+    elements: array[WebElement] = VirtelEmulator(context).find_zones_with_text(label)
+    assert len(elements) == 1
+    with virtelIframe(context.browser):
+        field: WebElement = elements[0].find_element(By.XPATH, xpath_suffix)
+        text = field.text
+    assert value in text
 
 
 @when('I press keys "{value}" in myDesk')

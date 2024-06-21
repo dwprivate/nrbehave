@@ -102,14 +102,17 @@ class VirtelEmulator(object):
 
             ActionChains(virtel).send_keys(replace_special_keys(tosend)).perform()
 
-    def string_get(self, ypos, xpos, length):
+    def string_get(self, ypos, xpos) -> str:
         """
         Get a string of `length` at screen co-ordinates `ypos`/`xpos`
 
         Co-ordinates are 1 based, as listed in the status area of the
         terminal.
+
+        Length (as in py3270) in NOT required nor supported
         """
-        pass
+        with virtelIframe(self.browser):
+            return self.browser.find_element(*zone_locator(ypos, xpos)).text
 
     def string_found(self, ypos, xpos, string):
         """
@@ -161,6 +164,7 @@ class VirtelEmulator(object):
         """
         Returns list of zones containing given string
         """
+        label = label.replace(" ", " ")
         with virtelIframe(self.browser) as virtel:
             return virtel.find_elements(
                 By.XPATH, f'//pre//span[contains(text(), "{label}")]'
