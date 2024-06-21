@@ -5,20 +5,21 @@ Feature: Demo MyDesk - Devis Auto
   Scenario: Login to MyDesk
     When I run scenario "mydesk_multi_steps" "Login to MyDesk"
     And I go to screen "S1GSI"
+    Then textshot
 
     When I fill in zone 4,41 with value "702217<F1>"
     Then zone 2,2 should contains value "702217" within 10 seconds
 
-    # RETURN MUST BE MAPPED AS Entrer
-    When I send to MyDesk "<RETURN>"
+  #    # RETURN MUST BE MAPPED AS Entrer (dont by setupMyDesk in Login to MyDesk)
+    When I press keys "<RETURN>" in MyDesk
     Then zone 1,45 should contains value "S1GSIeE" within 10 seconds
 
-    When I send to MyDesk "SIDEVA2<RETURN>"
+    When I press keys "SIDEVA2<RETURN>" in MyDesk
     Then zone 4,17 should contains value "ORIGINE DE L'INTERVENTION No" within 10 seconds
 
-    When I send to MyDesk "<RETURN><F1>"
-    # il n'y a pas toujours de conjoint, mais s'il y en a un il faut encore un return
-    And I send to MyDesk "<RETURN>"
+    When I press keys "<RETURN><F1>" in MyDesk
+#    # il n'y a pas toujours de conjoint, mais s'il y en a un il faut encore un return
+    And I press keys "<RETURN>" in MyDesk
     Then zone 24,2 should contains value "GI3904: Commande ex{cut{e" within 10 seconds
 
     #CATEGORIE DE VEHICULE
@@ -36,7 +37,7 @@ Feature: Demo MyDesk - Devis Auto
       # Nb. assureurs antérieurs
     And I fill in zone 23,29 with value "00"
 
-    And I send to MyDesk "<F1>"
+    And I press keys "<F1>" in MyDesk
 
     # RECHERCHE MARQUE
     Then zone 12,2 should contains value "VARIABLES DE RISQUES"
@@ -54,5 +55,5 @@ Feature: Demo MyDesk - Devis Auto
     When I fill in zone following "Usage prof." with value "N"
     When I fill in zone following "BM actu.:" with value "00"
     When I fill in zone following "Véh. Occ." with value "N"
-    And breakpoint
+#    And breakpoint
     # F1 ? le devis est créé ??

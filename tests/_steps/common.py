@@ -1,7 +1,7 @@
 import glob
 
 from behave import *
-from behave.model import Feature, Row, Scenario, Table
+from behave.model import Examples, Feature, Row, Scenario, Table
 from behave.parser import parse_file
 from behave.runner import Context
 
