@@ -5,12 +5,12 @@ Feature: Demo MyDesk - FATCA
   Scenario Outline: Check Fatca
     When I run scenario "mydesk_multi_steps" "Login to MyDesk"
     And I go to screen "S1GSI"
-    And I fill in zone after "NO. POLICE" with value "<Police><RETURN>"
-    Then zone "email" 10,14 should equals value "<Mail> "
+    And I fill in zone after "NO. POLICE" with value "<POLICE><RETURN>"
+    Then zone "email" 10,14 should equals value "<MAIL> "
     Then textshot
 
     Examples:
-      | Police   | Mail                    |
+      | POLICE   | MAIL                    |
       | 30233455 |                         |
       | 30443076 | 4fantastiques@orange.fr |
 
