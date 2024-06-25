@@ -9,6 +9,7 @@ from selenium.webdriver.support.wait import WebDriverWait
 @step('j\'ouvre la page "{url}"')
 def step_impl(context, url):
     context.browser.get(url)
+    context.attach("text/plain", "screenshot_image".encode())
 
 
 @step(

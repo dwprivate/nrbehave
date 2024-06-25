@@ -65,6 +65,7 @@ class VirtelEmulator(object):
         self.browser.find_element(By.ID, "virtelEmulator").send_keys(
             replace_special_keys("<HOME>FIN<RETURN><PAUSE>/RCL<RETURN>")
         )
+        # todo: wit absence of virtelEmulator
 
     def wait_for_field(self):
         """

@@ -1,4 +1,4 @@
-from _fixtures.fixtures import *
+from _fixtures.selenium.fixtures import *
 from behave import use_fixture
 
 

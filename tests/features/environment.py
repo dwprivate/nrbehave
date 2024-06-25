@@ -1,14 +1,24 @@
-from _hooks.selenium import *
-from behave import use_fixture
+from _fixtures.selenium import environment as selenium_environment
+from behave.runner import Context
 
-"""
-Attention
-Actuellement, les hooks importés peuvent écraser ceux définis ici...
-"""
+
+# to move:
+def embed(context: Context, data, title="", mime_type="text/plain"):
+    print(title + "\n" + data)
+    if isinstance(data, str):
+        enc_data = f"{title}: {data}".encode()
+        context.attach(mime_type, enc_data)
+    # todo else
+
+    for formatter in context._runner.formatters:
+        if formatter.name == "html-pretty":
+            print("to pretty")
+            formatter.embed(mime_type=mime_type, data=data, caption=title)
 
 
 def before_all(context):
-    print("before_all")
+    Context.embed = embed
+    print("embed attached")
 
 
 def after_all(context):
@@ -17,3 +27,11 @@ def after_all(context):
 
 def before_scenario(context, scenario):
     context.scenario_data = {}
+
+
+def before_tag(context, tag):
+    selenium_environment.before_tag(context, tag)
+
+
+def after_tag(context, tag):
+    selenium_environment.after_tag(context, tag)

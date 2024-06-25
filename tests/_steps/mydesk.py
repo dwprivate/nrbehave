@@ -8,7 +8,8 @@ from selenium.webdriver.common.by import By
 
 @step("textshot")
 def textshot(context):
-    print(VirtelEmulator(context).get_screen())
+    context.textshot = VirtelEmulator(context).get_screen()
+    print(context.textshot)
 
 
 @when('I fill in zone {row:d},{col:d} with value "{value}"')
@@ -56,7 +57,9 @@ def zone_with_row_and_col_should_contains(
 def zone_with_row_and_col_should_contains(
     context, row: int, col: int, value: str, name: str = ""
 ):
-    assert VirtelEmulator(context).string_get(row, col).strip() == value.strip()
+    assert (
+        VirtelEmulator(context).string_get(row, col).strip() == value.strip()
+    ), f"La zone {name} ({col},{row}) ne contient pas la valeur {value}"
 
 
 @then('zone {where:w} "{label}" should contains value "{value}"')
@@ -92,6 +95,7 @@ def setupMyDesk(context):
 @step("I log out")
 def logoutMyDesk(context):
     VirtelEmulator(context).terminate()
+    time.sleep(1)
     # context.browser.switch_to.default_content()
     # try:
     #     # WebDriverWait(context.browser, timeout=2).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "app-nav-more")))

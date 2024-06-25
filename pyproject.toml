@@ -7,8 +7,10 @@ readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-behave = "^1.2.6"
+behave = { git = "https://github.com/behave/behave", tag = "v1.2.7.dev5" }
 selenium = "^4.21.0"
+cucumber-tag-expressions = "^6.1.0"
+behave-html-pretty-formatter = "^1.11.2"
 
 
 [tool.poetry.group.dev.dependencies]
