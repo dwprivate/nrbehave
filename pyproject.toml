@@ -11,6 +11,7 @@ behave = { git = "https://github.com/behave/behave", tag = "v1.2.7.dev5" }
 selenium = "^4.21.0"
 cucumber-tag-expressions = "^6.1.0"
 behave-html-pretty-formatter = "^1.11.2"
+dynaconf = "^3.2.5"
 
 
 [tool.poetry.group.dev.dependencies]

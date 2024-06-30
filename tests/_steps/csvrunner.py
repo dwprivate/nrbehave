@@ -9,7 +9,7 @@ from behave.runner import Context
 
 
 @step('a csv file "{file}" with encoding "{encoding}"')
-def csd_datatable(context, file, encoding):
+def csv_datatable(context, file, encoding):
     # up to now, generate a list. Could be improved
     with open(file, newline="", encoding="latin-1") as csvfile:
         reader = csv.DictReader(csvfile, delimiter=";")

@@ -25,7 +25,7 @@ def step_impl(context, selector, text, timeout):
 def step_impl(context, value: str, selector):
     element = context.browser.find_element(By.CSS_SELECTOR, selector)
 
-    element.send_keys(replace_special_keys(value))
+    element.send_keys(parse_input_text(value))
 
 
 @when('I press element "{selector}"')

@@ -3,8 +3,8 @@
 - run `poetry add -G dev pre-commit black isort`
 - pre-commit: run `poetry run pre-commit install`
 
-- run all tests: `poetry run behave`
-- run one test (with optional line numer): `poetry run **/selenium.feature:16`
+- run all tests: `PYTHONPATH=tests poetry run behave`
+- run one test (with optional line numer): `PYTHONPATH=tests poetry run **/selenium.feature:16`
 # In details
 - install VSCode and required plugins
 - clone project
@@ -46,9 +46,9 @@
     - exécuter `poetry env info --path`. Regarder la valeur renvoyée (un chemin qui se termine par .env)
     - dans VSCode, ouvrir la palette  (Ctrl+Shift+P) et rechercher `Python: Select interpreter`
     - choisir l'interpréteur correspondant à la valeur de la comman de précédente    - tester: ouvrir le fichier _doc/test_install.py    - l'exécuter avec le bouton "play"
-        - un message doit s'afficher et aucune erreur ne doit être renvoyée. 
-    - installer le plugin Behave VCS pre-release (ouvrir la palette  (Ctrl+Shift+P); rechercher `Behave`)    
-    Ouf, c'est terminé ! 
+        - un message doit s'afficher et aucune erreur ne doit être renvoyée.
+    - installer le plugin Behave VCS pre-release (ouvrir la palette  (Ctrl+Shift+P); rechercher `Behave`)
+    Ouf, c'est terminé !
 
 # Poetry
 
