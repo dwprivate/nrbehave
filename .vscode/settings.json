@@ -1,0 +1,6 @@
+{
+    "behave-vsc.envVarOverrides": {
+        "PYTHONPATH": "tests"
+    },
+    "behave-vsc.featuresPath": "tests/features",
+}
