@@ -3,8 +3,8 @@
 - run `poetry add -G dev pre-commit black isort`
 - pre-commit: run `poetry run pre-commit install`
 
-- run all tests: `PYTHONPATH=tests poetry run behave`
-- run one test (with optional line numer): `PYTHONPATH=tests poetry run **/selenium.feature:16`
+- run all tests: `poetry run behave`
+- run one test (with optional line numer): `poetry run **/selenium.feature:16`
 # In details
 - install VSCode and required plugins
 - clone project
