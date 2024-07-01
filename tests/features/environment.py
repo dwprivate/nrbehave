@@ -1,4 +1,5 @@
 from _fixtures.selenium import environment as selenium_environment
+from behave.model import Scenario
 from behave.runner import Context
 
 
@@ -27,6 +28,12 @@ def after_all(context):
 
 def before_scenario(context, scenario):
     context.scenario_data = {}
+
+
+def after_scenario(context: Context, scenario: Scenario):
+    print(f"Scenario {scenario.name} finished")
+    print(context.captured.stdout)
+    pass
 
 
 def before_tag(context, tag):

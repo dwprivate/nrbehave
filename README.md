@@ -1,10 +1,5 @@
-# TLDR;
-- install python 11 and poetry
-- run `poetry add -G dev pre-commit black isort`
-- pre-commit: run `poetry run pre-commit install`
+# Installation
 
-- run all tests: `poetry run behave`
-- run one test (with optional line numer): `poetry run **/selenium.feature:16`
 # In details
 - install VSCode and required plugins
 - clone project
@@ -66,4 +61,14 @@ Useful tips and config samples: https://sam.hooke.me/note/2023/09/poetry-pre-com
 # about selenium
 https://selenium-python.readthedocs.io/installation.html
 https://www.selenium.dev/documentation/
-# about
+# about dynaconf
+https://www.dynaconf.com/
+
+
+# TLDR;
+- install python 11 and poetry
+- run `poetry add -G dev pre-commit black isort`
+- pre-commit: run `poetry run pre-commit install`
+
+- run all tests: `poetry run behave`
+- run one test (with optional line numer): `poetry run **/selenium.feature:16`
