@@ -8,7 +8,7 @@
   - browse langage extension: installer Python
 
 - menu view / source control / clone repository
-  http://gitlab.codefactory1.afelio.be/testing/nrbehave.git
+  https://github.com/dwprivate/nrbehave
   choisir un dossier vide pour contenir les sources du projets, p.ex. Documents/
 
 ## Installation de python 3.11
