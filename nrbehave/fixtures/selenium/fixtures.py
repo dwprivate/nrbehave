@@ -1,9 +1,10 @@
-from _utils.selenium_string_utils import *
 from behave import fixture
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+
+from nrbehave.utils.selenium_string_utils import *
 
 
 @fixture

@@ -1,5 +1,7 @@
 from behave import *
 
+from nrbehave.utils.virtel import VirtelEmulator
+
 
 @then(
     'la zone "langue" {row:d},{col:d} correspond à l\'initiale de la valeur "{value}"'

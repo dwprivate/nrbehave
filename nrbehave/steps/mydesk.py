@@ -1,9 +1,10 @@
 import time
 
-from _utils.virtel import VirtelEmulator, virtelIframe
 from behave import *
 from behave.runner import Context
 from selenium.webdriver.common.by import By
+
+from nrbehave.utils.virtel import VirtelEmulator, virtelIframe
 
 
 @step("textshot")

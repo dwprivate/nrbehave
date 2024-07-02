@@ -1,7 +1,6 @@
 import time
 from contextlib import contextmanager
 
-from _utils.selenium_string_utils import *
 from behave.runner import Context
 from selenium.webdriver import ActionChains, Keys
 from selenium.webdriver.common.by import By
@@ -9,6 +8,8 @@ from selenium.webdriver.remote.webdriver import WebDriver
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.wait import WebDriverWait
+
+from nrbehave.utils.selenium_string_utils import *
 
 
 @contextmanager

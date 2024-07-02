@@ -1,6 +1,7 @@
-from _fixtures.selenium import environment as selenium_environment
 from behave.model import Scenario
 from behave.runner import Context
+
+from nrbehave.fixtures.selenium import environment as selenium_environment
 
 
 # to move:

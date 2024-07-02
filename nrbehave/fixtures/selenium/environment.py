@@ -1,5 +1,6 @@
-from _fixtures.selenium.fixtures import *
 from behave import use_fixture
+
+from nrbehave.fixtures.selenium.fixtures import *
 
 
 def before_tag(context, tag):

@@ -4,14 +4,13 @@ Feature: CSV Demo
 
   Scenario Outline: Check S1GSI - CSV - subset (with failure)
     Given a csv file "<filename>" with encoding "latin-1"
-    Given a csv file "data/subset.csv" with encoding "latin-1"
     And I run scenario "mydesk_multi_steps" "Login to MyDesk"
-    And a scenario outline "demo/csv_demo" "S1GSI (once logged)"
+    And a scenario outline "mydesk/fatca_csv" "S1GSI (once logged)"
     Then check all CSV rows
 
     Examples:
     | filename |
-    | data/subset.csv |
+    | tests/data/subset.csv |
 
 #    @skip
 #    Examples:
@@ -21,7 +20,7 @@ Feature: CSV Demo
 
   @skip
   Scenario Outline: S1GSI (once logged)
-#    When I run scenario "mydesk_multi_steps" "Login to MyDesk"
+   # When I run scenario "mydesk_multi_steps" "Login to MyDesk"
     When I go to screen "S1GSI"
     And I fill in zone after "NO. AFFILIE" with value "<AFFILIE><RETURN>"
     Then zone "email" 10,14 should equals value "<MAIL> "

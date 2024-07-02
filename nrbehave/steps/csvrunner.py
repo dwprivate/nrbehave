@@ -1,11 +1,12 @@
 import csv
 import glob
 
-from _steps.common import load_scenario_from_feature_file, scenario_to_txt
 from behave import *
 from behave.model import Examples, Feature, Row, Scenario, Table
 from behave.parser import parse_file
 from behave.runner import Context
+
+from nrbehave.steps.common import load_scenario_from_feature_file, scenario_to_txt
 
 
 @step('a csv file "{file}" with encoding "{encoding}"')
